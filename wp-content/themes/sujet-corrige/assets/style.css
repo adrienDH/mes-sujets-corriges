@@ -1,0 +1,71 @@
+#wpadminbar {
+    display: none !important;
+}
+
+body, .table>:not(caption)>*>*, .bg-green-svt {
+    background-color: rgba(46, 139, 87, 0.2) !important;
+}
+
+#modal_connection .text-danger {
+    margin-top: 20px;
+}
+
+/* Centrage du formulaire */
+.login-form-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+/* Style des champs */
+.login-form-container input[type="text"],
+.login-form-container input[type="password"],
+.login-form-container input[type="email"]{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Bouton de connexion */
+.login-form-container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-form-container input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Checkbox "Se souvenir de moi" */
+.login-form-container label[for="rememberme"] {
+    font-size: 14px;
+}
+
+#wp-submit {
+    color: #ffffff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+@media (max-width: 767px) {
+    .form-select, .input-group input, .btn-outline-secondary {
+        display: block;
+        width: 100% !important;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 991px) {
+    table .btn, .btn-outline-success {
+        margin: 5px;
+    }
+}
+

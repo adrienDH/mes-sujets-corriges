@@ -1,0 +1,32 @@
+name: sujet-corrige
+recipe: wordpress
+config:
+
+services:
+  appserver:
+    type: php:8.2
+  node-cli:
+    type: node:20
+  database:
+    portforward: 3282
+  mailpit:
+    type: compose
+    ssl: true
+    app_mount: false
+    # uniquement ssl par le proxy
+    sslExpose: false
+    # pour exposer en localhost sans proxy (mapping auto)
+    moreHttpPorts:
+      - 8025
+    services:
+      image: axllent/mailpit
+      command: /mailpit
+      environment:
+        MP_MAX_MESSAGES: 5000
+      # pour exposer en localhost
+      ports:
+        - 8026
+
+proxy:
+  mailpit:
+    - mailpit.sujet-corrige.lndo.site:8025

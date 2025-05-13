@@ -1,0 +1,7 @@
+
+RewriteEngine on
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-SSL} !on
+RewriteCond %{HTTP_HOST} ^www\.mes\-sujets\-corriges\.fr$
+RewriteRule ^/?$ "https\:\/\/mes\-sujets\-corriges\.fr\/" [R=301,L]
+

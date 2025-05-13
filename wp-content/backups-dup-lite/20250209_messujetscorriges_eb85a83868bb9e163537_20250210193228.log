@@ -1,0 +1,73 @@
+********************************************************************************
+DUPLICATOR-LITE PACKAGE-LOG: 10 February 2025 19h32
+NOTICE: Do NOT post to public sites or forums 
+********************************************************************************
+VERSION:	1.5.11.2
+WORDPRESS:	6.7.1
+PHP INFO:	8.2.27 | SAPI: litespeed
+SERVER:		Apache 
+PHP TIME LIMIT: (0) no time limit imposed 
+PHP MAX MEMORY: 4294967296 (512M default) 
+MEMORY STACK: 6MB
+
+********************************************************************************
+DATABASE:
+********************************************************************************
+BUILD MODE:   MYSQLDUMP
+MYSQLTIMEOUT: 5000
+MYSQLDUMP:    Is Supported
+SQL CREATED: 20250209_messujetscorriges_eb85a83868bb9e163537_20250210193228_database.sql
+SQL FILE SIZE: 604.26KB (618764)
+SQL FILE TIME: 2025-02-10 19:32:31
+SQL RUNTIME: 0.04 sec.
+
+********************************************************************************
+ARCHIVE (ZIP):
+********************************************************************************
+ARCHIVE DIR:  /home/woyu1414/public_html
+ARCHIVE FILE: 20250209_messujetscorriges_eb85a83868bb9e163537_20250210193228_archive.zip
+FILTERS: *OFF*
+DIRS:
+	not set
+FILES:
+	not set
+EXTS:  not set
+----------------------------------------
+COMPRESSING
+SIZE:	104.9MB
+STATS:	Dirs 801 | Files 5,648
+SQL ADDED: 20250209_messujetscorriges_eb85a83868bb9e163537_20250210193228_database.sql
+ZipArchive Object
+(
+    [lastId] => 6448
+    [status] => 0
+    [statusSys] => 0
+    [numFiles] => 6449
+    [filename] => /home/woyu1414/public_html/wp-content/backups-dup-lite/tmp/20250209_messujetscorriges_eb85a83868bb9e163537_20250210193228_archive.zip
+    [comment] => 
+)
+
+FILE ADDED TO ZIP: 6448
+COMPRESSION RESULT: '1'
+COMPRESSED SIZE: 31.83MB
+ARCHIVE RUNTIME: 6.35 sec.
+MEMORY STACK: 8MB
+building installer
+TEST DE COHÉRENCE D’ARCHIVE : RÉUSSITE
+
+********************************************************************************
+INTEGRITY CHECKS:
+********************************************************************************
+SQL FILE: 604.26KB
+INSTALLER FILE: 73.48KB
+ARCHIVE FILE: 33.71MB 
+COMPTE ATTENDU DE FICHIERS/RÉPERTOIRES : 6,449
+COMPTE ACTUEL DE FICHIERS/RÉPERTOIRES : 6,448
+TEST DE COHÉRENCE D’ARCHIVE : Bon
+
+********************************************************************************
+RECORD ID:[2]
+TOTAL PROCESS RUNTIME: 6.95 sec.
+PEAK PHP MEMORY USED: 10MB
+DONE PROCESSING => 20250209_messujetscorriges 10 February 2025 19h32
+
