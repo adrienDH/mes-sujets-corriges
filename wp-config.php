@@ -1,5 +1,7 @@
 <?php
 /**
+ * TEST
+ * 
  * The base configuration for WordPress
  *
  * The wp-config.php creation script uses this file during the installation.
@@ -9,7 +11,7 @@
  * This file contains the following configurations:
  *
  * * Database settings
- * * Secret keys
+ * * Secret keysqDSQSS
  * * Database table prefix
  * * ABSPATH
  *
