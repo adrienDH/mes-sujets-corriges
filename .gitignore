@@ -1,6 +1,3 @@
-# Ignorer les fichiers de configuration de WordPress
-wp-config.php
-
 # Ignorer les fichiers temporaires
 *.log
 *.tmp
@@ -8,3 +5,6 @@ wp-config.php
 # Ignorer les répertoires
 node_modules/
 vendor/
+
+# Ignorer les fichiers de configuration de WordPress
+wp-config.php
