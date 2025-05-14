@@ -107,81 +107,86 @@
                 <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
             </form>
             <div class="table-responsive">
-            <table class="table table-hover mt-5">
-                <thead>
-                <tr>
-                    <th scope="col">Titre</th>
-                    <th scope="col">Année</th>
-                    <th scope="col">Type de l'exercice 1</th>
-                    <th scope="col">Type de l'exercice 2</th>
-                    <th scope="col" class="text-center">Ficher d'énnoncé</th>
-                    <th scope="col" class="text-center">Fichier de correction</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($sujets as $sujetId): ?>
-                    <?php
-                        $acfFields = get_fields($sujetId);
-                        $year = get_the_terms($sujetId, 'year-tax');
-                        $typeEx1 = get_the_terms($sujetId, 'type-exe-1-tax');
-                        $typeEx2 = get_the_terms($sujetId, 'type-exe-2-tax');
-                    ?>
-                    <tr>
-                        <th scope="row" class="align-middle"><?= get_the_title($sujetId) ?></th>
-                        <td class="align-middle">
-                            <?php if(!empty($year[0])): ?>
-                                <?= $year[0]->name ?>
-                            <?php endif; ?>
-                        </td>
-                        <td class="align-middle">
-                            <?php if(!empty($typeEx1[0])): ?>
-                                <?= $typeEx1[0]->name ?>
-                            <?php endif; ?>
-                        </td>
-                        <td class="align-middle">
-                            <?php if(!empty($typeEx2[0])): ?>
-                                <?= $typeEx2[0]->name ?>
-                            <?php endif; ?>
-                        </td>
-                        <?php if(!empty($acfFields['prompt'])): ?>
-                            <td class="text-center">
-                                <a href="<?= $acfFields['prompt']['url'] ?>" target="_blank" class="btn btn-success">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"></path>
-                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"></path>
-                                    </svg>
-                                    Sujet
-                                </a>
-                            </td>
-                        <?php endif; ?>
-                        <?php if(!empty($acfFields['corrections'])): ?>
-                            <td class="text-center">
-                                <?php foreach ($acfFields['corrections'] as $key => $correction): ?>
-                                    <?php if(!empty($correction['correction'])): ?>
-                                        <a
-                                            <?php if($isLogged): ?>
-                                                href="<?= $correction['correction']['url'] ?>"
-                                                target="_blank"
-                                            <?php endif; ?>
-                                            class="btn  <?= $isLogged ? 'btn-success' : 'btn-outline-secondary' ?>"
-                                            <?php if(!$isLogged): ?>
-                                                data-bs-toggle="modal" data-bs-target="#modal_connection"
-                                            <?php endif; ?>
-                                        >
-                                            <span class="align-middle">Exercice <?= ++$key ?></span>
+                <div class="table-wrapper mt-5">
+                    <img src="<?= get_template_directory_uri(); ?>/assets/images/fleur.png" alt="Fleur" class="fleur1">
+                    <img src="<?= get_template_directory_uri(); ?>/assets/images/cellule.png" alt="Fleur" class="cellule">
+                    <img src="<?= get_template_directory_uri(); ?>/assets/images/geologie.png" alt="Fleur" class="geologie">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Titre</th>
+                            <th scope="col">Année</th>
+                            <th scope="col">Type de l'exercice 1</th>
+                            <th scope="col">Type de l'exercice 2</th>
+                            <th scope="col" class="text-center">Ficher d'énnoncé</th>
+                            <th scope="col" class="text-center">Fichier de correction</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($sujets as $sujetId): ?>
+                            <?php
+                                $acfFields = get_fields($sujetId);
+                                $year = get_the_terms($sujetId, 'year-tax');
+                                $typeEx1 = get_the_terms($sujetId, 'type-exe-1-tax');
+                                $typeEx2 = get_the_terms($sujetId, 'type-exe-2-tax');
+                            ?>
+                            <tr>
+                                <th scope="row" class="align-middle"><?= get_the_title($sujetId) ?></th>
+                                <td class="align-middle">
+                                    <?php if(!empty($year[0])): ?>
+                                        <?= $year[0]->name ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="align-middle">
+                                    <?php if(!empty($typeEx1[0])): ?>
+                                        <?= $typeEx1[0]->name ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="align-middle">
+                                    <?php if(!empty($typeEx2[0])): ?>
+                                        <?= $typeEx2[0]->name ?>
+                                    <?php endif; ?>
+                                </td>
+                                <?php if(!empty($acfFields['prompt'])): ?>
+                                    <td class="text-center">
+                                        <a href="<?= $acfFields['prompt']['url'] ?>" target="_blank" class="btn btn-success">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
                                                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"></path>
                                                 <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"></path>
                                             </svg>
-
+                                            Sujet
                                         </a>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </td>
-                        <?php endif; ?>
-                    </tr>
-                <?php endforeach; ?>
-            </table>
+                                    </td>
+                                <?php endif; ?>
+                                <?php if(!empty($acfFields['corrections'])): ?>
+                                    <td class="text-center">
+                                        <?php foreach ($acfFields['corrections'] as $key => $correction): ?>
+                                            <?php if(!empty($correction['correction'])): ?>
+                                                <a
+                                                    <?php if($isLogged): ?>
+                                                        href="<?= $correction['correction']['url'] ?>"
+                                                        target="_blank"
+                                                    <?php endif; ?>
+                                                    class="btn  <?= $isLogged ? 'btn-success' : 'btn-outline-secondary' ?>"
+                                                    <?php if(!$isLogged): ?>
+                                                        data-bs-toggle="modal" data-bs-target="#modal_connection"
+                                                    <?php endif; ?>
+                                                >
+                                                    <span class="align-middle">Exercice <?= ++$key ?></span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"></path>
+                                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"></path>
+                                                    </svg>
+
+                                                </a>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

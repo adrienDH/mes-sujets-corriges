@@ -2,8 +2,8 @@
     display: none !important;
 }
 
-body, .table>:not(caption)>*>*, .bg-green-svt {
-    background-color: rgba(46, 139, 87, 0.2) !important;
+body {
+    background-color: #c1efc4;
 }
 
 #modal_connection .text-danger {
@@ -69,3 +69,47 @@ body, .table>:not(caption)>*>*, .bg-green-svt {
     }
 }
 
+.table-wrapper, .table>:not(caption)>*>* {
+    background-color: #e4ffe6 !important; 
+}
+
+.table-wrapper {
+    padding: 50px;
+}
+
+.table-wrapper .fleur1 {
+    width: 10%;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 10%;
+    transform: translate(0, 100%);
+}
+
+.table-wrapper .geologie {
+    width: 14%;
+    z-index: -1;
+    position: absolute;
+    top: 2%;
+    right: 23%;
+}
+
+.table-wrapper .cellule {
+    width: 10%;
+    z-index: -1;
+    position: fixed;
+    bottom: 25%;
+    right: 3%;
+    transform: translate(0, 100%);
+}
+
+.table thead th {
+    background: #c1efc4 !important;
+}
+
+h1 {
+    font-family: "Delius", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 50px;
+}

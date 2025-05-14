@@ -13,6 +13,10 @@
     <script src="/wp-content/themes/sujet-corrige/assets/app.js"></script>
     <link rel="icon" href="https://mes-sujets-corriges.fr/wp-content/uploads/2025/02/favicon.png" sizes="32x32" />
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-00TRKNGGWW"></script>
     <script>
