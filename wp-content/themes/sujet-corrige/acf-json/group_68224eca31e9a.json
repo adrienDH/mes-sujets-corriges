@@ -84,23 +84,23 @@
     "location": [
         [
             {
-                "param": "current_user_role",
+                "param": "user_form",
                 "operator": "==",
-                "value": "author"
+                "value": "all"
             }
         ],
         [
             {
-                "param": "current_user_role",
+                "param": "user_form",
                 "operator": "==",
-                "value": "administrator"
+                "value": "all"
             }
         ],
         [
             {
-                "param": "current_user_role",
+                "param": "user_form",
                 "operator": "==",
-                "value": "editor"
+                "value": "all"
             }
         ]
     ],
@@ -113,5 +113,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1747079737
+    "modified": 1747333884
 }

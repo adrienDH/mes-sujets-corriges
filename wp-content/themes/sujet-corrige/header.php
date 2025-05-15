@@ -30,3 +30,16 @@
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+  <div class="container">
+      <div class="row">
+        <div class="col-12 my-5">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1><a href="<?= home_url('/') ?>">Mes sujets corrigés</a></h1>
+                <div class="button-wrapper">
+                    <img src="<?= get_template_directory_uri(); ?>/assets/images/geologie.png" alt="Fleur" class="geologie">
+                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_connection">Me connecter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

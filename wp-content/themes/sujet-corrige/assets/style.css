@@ -1,3 +1,4 @@
+/* === GÉNÉRAL === */
 #wpadminbar {
     display: none !important;
 }
@@ -6,21 +7,40 @@ body {
     background-color: #c1efc4;
 }
 
-#modal_connection .text-danger {
-    margin-top: 20px;
+h1 {
+    font-family: "Delius", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 50px;
 }
 
-/* Centrage du formulaire */
+h1 a {
+    color: black;
+    text-decoration: none;
+}
+
+p {
+    font-family: "Delius", cursive;
+}
+
+p a {
+    color: #198754;
+}
+
+
+/* === FORMULAIRE DE CONNEXION === */
+
+/* Conteneur */
 .login-form-container {
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 20px;
 }
 
-/* Style des champs */
+/* Champs texte */
 .login-form-container input[type="text"],
 .login-form-container input[type="password"],
-.login-form-container input[type="email"]{
+.login-form-container input[type="email"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -28,7 +48,7 @@ body {
     font-size: 16px;
 }
 
-/* Bouton de connexion */
+/* Bouton submit */
 .login-form-container input[type="submit"] {
     width: 100%;
     padding: 10px;
@@ -49,49 +69,45 @@ body {
     font-size: 14px;
 }
 
+/* Message d'erreur */
+#modal_connection .text-danger {
+    margin-top: 20px;
+}
+
+/* WP Submit personnalisé */
 #wp-submit {
     color: #ffffff;
     background-color: #198754;
     border-color: #198754;
 }
 
-@media (max-width: 767px) {
-    .form-select, .input-group input, .btn-outline-secondary {
-        display: block;
-        width: 100% !important;
-        margin: 5px 0;
-    }
-}
 
-@media (max-width: 991px) {
-    table .btn, .btn-outline-success {
-        margin: 5px;
-    }
-}
-
-.table-wrapper, .table>:not(caption)>*>* {
-    background-color: #e4ffe6 !important; 
-}
+/* === TABLEAUX === */
 
 .table-wrapper {
     padding: 50px;
+    position: relative;
 }
 
+.table-wrapper, 
+.table > :not(caption) > * > * {
+    background-color: #e4ffe6 !important;
+}
+
+.table thead th {
+    background: #c1efc4 !important;
+}
+
+
+/* === ÉLÉMENTS DÉCORATIFS === */
+
 .table-wrapper .fleur1 {
-    width: 10%;
+    width: 20%;
     z-index: -1;
     position: absolute;
     top: 0;
-    left: 10%;
-    transform: translate(0, 100%);
-}
-
-.table-wrapper .geologie {
-    width: 14%;
-    z-index: -1;
-    position: absolute;
-    top: 2%;
-    right: 23%;
+    left: 0;
+    transform: translate(-50%, -50%);
 }
 
 .table-wrapper .cellule {
@@ -103,13 +119,48 @@ body {
     transform: translate(0, 100%);
 }
 
-.table thead th {
-    background: #c1efc4 !important;
+.button-wrapper {
+    position: relative;
 }
 
-h1 {
-    font-family: "Delius", cursive;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 50px;
+.geologie {
+    width: 200px;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, -50%);
+}
+
+
+/* === RESPONSIVE === */
+
+@media (max-width: 767px) {
+    .form-select,
+    .input-group input,
+    .btn-outline-secondary {
+        display: block;
+        width: 100% !important;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 991px) {
+    table .btn,
+    .btn-outline-success {
+        margin: 5px;
+    }
+}
+
+@media screen and (max-width: 1001px) {
+    .fleur1,
+    .geologie {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1001px) {
+    .table-responsive {
+        overflow-x: visible;
+    }
 }

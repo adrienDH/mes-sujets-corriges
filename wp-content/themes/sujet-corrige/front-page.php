@@ -23,14 +23,9 @@
 <?php get_header() ?>
 
 <div class="container">
-    <div class="row">
-        <div class="col-12 my-5">
-            <div class="d-flex justify-content-between align-items-center">
-                <h1>Mes sujets corrigés</h1>
-                <div>
-                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_connection">Me connecter</button>
-                </div>
-            </div>
+    <div class="row mb-5">
+        <div class="col-12">
+            <p>Vous souhaitez contribuer ? Pour vous inscrire cliqué : <a href="<?= home_url('/') ?>">ici</a></p>
         </div>
     </div>
     <div class="row">
@@ -110,7 +105,6 @@
                 <div class="table-wrapper mt-5">
                     <img src="<?= get_template_directory_uri(); ?>/assets/images/fleur.png" alt="Fleur" class="fleur1">
                     <img src="<?= get_template_directory_uri(); ?>/assets/images/cellule.png" alt="Fleur" class="cellule">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/images/geologie.png" alt="Fleur" class="geologie">
                     <table class="table table-hover">
                         <thead>
                         <tr>

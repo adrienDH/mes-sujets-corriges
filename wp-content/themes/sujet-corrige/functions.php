@@ -32,3 +32,7 @@ function contact() {
 
     wp_send_json_success();
 }
+
+
+require_once get_template_directory().'/core/Hooks/ACF/ACFSelectHook.php';
+require_once get_template_directory().'/core/Hooks/ACF/AcfFormHook.php';
