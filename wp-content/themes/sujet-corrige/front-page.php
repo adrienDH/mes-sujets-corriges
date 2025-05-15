@@ -25,7 +25,7 @@
 <div class="container">
     <div class="row mb-5">
         <div class="col-12">
-            <p>Vous souhaitez contribuer ? Pour vous inscrire cliqué : <a href="<?= home_url('/') ?>">ici</a></p>
+            <p>Vous souhaitez contribuer ? Pour vous inscrire cliqué : <a href="<?= home_url('/').'inscription' ?>">ici</a></p>
         </div>
     </div>
     <div class="row">

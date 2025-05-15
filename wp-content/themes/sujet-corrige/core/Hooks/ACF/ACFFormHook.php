@@ -21,7 +21,7 @@ class AcfFormHook {
         $correctionAttachmentId = null;
 
         if(!empty($_POST['acf']['field_68263684aad67'])) {
-            $lastname =^$_POST['acf']['field_68263684aad67'];
+            $lastname = $_POST['acf']['field_68263684aad67'];
         }
         if(!empty($_POST['acf']['field_682636d7aad68'])) {
             $firstname = $_POST['acf']['field_682636d7aad68'];
@@ -49,9 +49,9 @@ class AcfFormHook {
             return;
         }
 
-        $this->updateAcfUser($sujet->post_title, $correctionAttachmentId)
+        $this->updateAcfUser($sujet->post_title, $correctionAttachmentId);
 
-        $this->sendAdminEmail($lastname, $firstname, $email, $sujet->post_title, $correctionAttachmentId)
+        $this->sendAdminEmail($lastname, $firstname, $email, $sujet->post_title, $correctionAttachmentId);
 
     }
 
