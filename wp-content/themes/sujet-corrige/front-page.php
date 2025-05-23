@@ -23,11 +23,13 @@
 <?php get_header() ?>
 
 <div class="container">
-    <div class="row mb-5">
-        <div class="col-12">
-            <p>Vous souhaitez contribuer ? Pour vous inscrire cliqué : <a href="<?= home_url('/').'inscription' ?>">ici</a></p>
+    <?php if(is_user_logged_in()): ?>                    
+        <div class="row mb-5">
+            <div class="col-12">
+                <p>Vous souhaitez contribuer ? Pour vous inscrire cliqué : <a href="<?= home_url('/').'inscription' ?>">ici</a></p>
+            </div>
         </div>
-    </div>
+    <?php endif; ?>
     <div class="row">
         <div class="col-12">
             <form method="post" action="<?= home_url() ?>" class="input-group">
@@ -225,29 +227,5 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modal_connection" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="connection" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title fs-5" id="staticBackdropLabel">Merci de vous connecter pour accèder aux documents de correction</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <?php if(!empty($_GET['login']) && $_GET['login'] === 'failed'): ?>
-                    <div class="text-danger text-center">Identifiant ou votre mot de passe est incorrect</div>
-                <?php endif; ?>
-                <div class="container d-flex justify-content-center">
-                    <div class="login-form-container">
-                        <?= wp_login_form([
-                            'redirect' => home_url()
-                        ]) ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <?php get_footer() ?>

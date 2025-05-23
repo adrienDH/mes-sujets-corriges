@@ -5,6 +5,10 @@ config:
 services:
   appserver:
     type: php:8.2
+    overrides:
+      environment:
+        MAIL_HOST: mailpit
+        MAIL_PORT: 1025
   node-cli:
     type: node:20
   database:
@@ -20,9 +24,10 @@ services:
       - 8025
     services:
       image: axllent/mailpit
-      command: /mailpit
+      command: /mailpit  --smtp-auth
       environment:
         MP_MAX_MESSAGES: 5000
+        MP_SMTP_AUTH_ALLOW: "mailuser:secret123"
       # pour exposer en localhost
       ports:
         - 8026

@@ -37,9 +37,36 @@
                 <h1><a href="<?= home_url('/') ?>">Mes sujets corrigés</a></h1>
                 <div class="button-wrapper">
                     <img src="<?= get_template_directory_uri(); ?>/assets/images/geologie.png" alt="Fleur" class="geologie">
-                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_connection">Me connecter</button>
+                    <?php if(is_user_logged_in()): ?>
+                      <a href="<?php echo admin_url() ?>" class="btn btn-outline-success">Accèder à l'administration</a>
+                    <?php else: ?>
+                      <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_connection">Me connecter</button>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </div>
   </div>
+
+  <div class="modal fade" id="modal_connection" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="connection" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="staticBackdropLabel">Merci de vous connecter pour accèder aux documents de correction</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php if(!empty($_GET['login']) && $_GET['login'] === 'failed'): ?>
+                    <div class="text-danger text-center">Identifiant ou votre mot de passe est incorrect</div>
+                <?php endif; ?>
+                <div class="container d-flex justify-content-center">
+                    <div class="login-form-container">
+                        <?= wp_login_form([
+                            'redirect' => home_url()
+                        ]) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -20,7 +20,7 @@
             "sub_fields": [
                 {
                     "key": "field_6822513d94dff",
-                    "label": "",
+                    "label": "Message",
                     "name": "",
                     "aria-label": "",
                     "type": "message",
@@ -113,5 +113,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1747333884
+    "modified": 1748027695
 }
