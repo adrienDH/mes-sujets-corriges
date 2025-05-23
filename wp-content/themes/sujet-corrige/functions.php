@@ -35,4 +35,4 @@ function contact() {
 
 
 require_once get_template_directory().'/core/Hooks/ACF/ACFSelectHook.php';
-require_once get_template_directory().'/core/Hooks/ACF/AcfFormHook.php';
+require_once get_template_directory().'/core/Hooks/ACF/ACFFormHook.php';
