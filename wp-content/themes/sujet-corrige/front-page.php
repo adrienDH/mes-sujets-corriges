@@ -23,7 +23,7 @@
 <?php get_header() ?>
 
 <div class="container">
-    <?php if(is_user_logged_in()): ?>                    
+    <?php if(!is_user_logged_in()): ?>                    
         <div class="row mb-5">
             <div class="col-12">
                 <p>Vous souhaitez contribuer ? Pour vous inscrire cliqué : <a href="<?= home_url('/').'inscription' ?>">ici</a></p>
