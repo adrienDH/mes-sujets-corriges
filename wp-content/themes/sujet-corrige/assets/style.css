@@ -7,6 +7,10 @@ body {
     background-color: #c1efc4;
 }
 
+* {
+    font-family: "Delius", cursive;
+}
+
 h1 {
     font-family: "Delius", cursive;
     font-weight: 400;
@@ -17,10 +21,6 @@ h1 {
 h1 a {
     color: black;
     text-decoration: none;
-}
-
-p {
-    font-family: "Delius", cursive;
 }
 
 p a {
@@ -164,3 +164,70 @@ p a {
         overflow-x: visible;
     }
 }
+
+/* === CARDS === */
+.custom-card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+}
+
+.custom-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    background-color: #f8f9fa;
+}
+
+.custom-card .card-body {
+    padding: 2rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1rem;
+}
+.badge-custom {
+    border-radius: 50px;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    white-space: unset;
+}
+
+.card-links a {
+    display: block;
+    width: 100%;
+    border-radius: 30px;
+    padding: 0.4rem 1rem;
+}
+
+.card-links a + a {
+    margin-top: 0.75rem;
+}
+
+.year-badge {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
+    font-size: 0.6rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 10px;
+    background-color: #0d6efd;
+    color: white;
+    font-weight: 600;
+    z-index: 10;
+}
+
+
+    
