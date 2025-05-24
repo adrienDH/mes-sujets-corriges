@@ -61,7 +61,7 @@ class AcfFormHook {
             'user_email'   => $email,
             'first_name'   => $firstname, 
             'last_name'    => $lastname,
-            'role'         => 'author',
+            'role'         => 'contributor',
         ];
 
         return wp_insert_user($userData);
