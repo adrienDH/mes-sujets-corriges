@@ -40,3 +40,51 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Exécuter la fonction une fois le DOM chargé
+document.addEventListener('DOMContentLoaded', function toggleCardsVisibility() {
+    const cardWrappers = document.querySelectorAll('.card-wrapper');
+    
+    cardWrappers.forEach(card => {
+        const withCorrections = card.getAttribute('data-with-corrections');
+        
+        if (withCorrections == 1) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+
+function initCardFilterByCorrections() {    
+    const checkbox = document.querySelector('input[name="with-correction"]');
+    function filterCards() {
+        const isChecked = checkbox.checked;
+        const cardWrappers = document.querySelectorAll('.card-wrapper');        
+
+        cardWrappers.forEach(card => {
+            const withCorrections = card.getAttribute('data-with-corrections');
+            const hasCorrections = withCorrections == 1;
+            
+            if (isChecked) {
+                // Si checkbox cochée : afficher seulement les cards AVEC corrections
+                if (hasCorrections) {
+                    card.style.setProperty('display', 'flex', 'important');
+                } else {
+                    card.style.setProperty('display', 'none', 'important');
+                }
+            } else {
+                // Si checkbox décochée : afficher toutes les cards
+                card.style.setProperty('display', 'flex', 'important');
+            }
+        });
+    }
+    
+    // Écouter les changements sur la checkbox
+    checkbox.addEventListener('change', filterCards);
+    
+    // Appliquer le filtre initial (si la checkbox est déjà cochée au chargement)
+    filterCards();
+}
+
+// Initialiser une fois le DOM chargé
+document.addEventListener('DOMContentLoaded', initCardFilterByCorrections);

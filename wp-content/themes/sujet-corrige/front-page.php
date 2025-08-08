@@ -124,6 +124,15 @@
             </form>
         </div>
     </div>   
+    <div class="row mt-5">
+        <div class="col-12">
+            <label class="checkbox-container">
+                <input type="checkbox" name="with-correction" value="1">
+                <span class="checkbox-custom"></span>
+                <span class="checkbox-label">Sujets avec corrections</span>
+            </label> 
+        </div>
+    </div>
     <div class="row mt-5">                              
         <?php foreach ($sujets as $sujetId): ?>
             <?php
@@ -132,7 +141,10 @@
                 $typeEx1 = get_the_terms($sujetId, 'type-exe-1-tax');
                 $typeEx2 = get_the_terms($sujetId, 'type-exe-2-tax');
             ?>
-            <div class="col-sm-12 col-md-4 col-lg-3 mb-3 d-flex">
+            <div 
+                class="col-sm-12 col-md-4 col-lg-3 mb-3 d-flex card-wrapper"
+                data-with-corrections="<?= !empty($acfFields['corrections']) ? "1" : "0" ?>"
+            >
                 <div class="card custom-card h-100">
                     <?php if(!empty($year[0])): ?>
                         <span class="year-badge"><?= $year[0]->name ?></span>
