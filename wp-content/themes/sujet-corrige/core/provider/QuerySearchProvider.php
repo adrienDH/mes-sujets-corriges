@@ -19,6 +19,11 @@ class QuerySearchProvider
             $typeEx2TermId = $params['type-exe-2-tax-name'];
         }
 
+        $centerTermId = null;
+        if(!empty($_POST['center-tax-name'])) {
+            $centerTermId = $params['center-tax-name'];
+        }
+
         $titleSearch = null;
         if(!empty($params['search-name'])) {
             $titleSearch = $params['search-name'];
@@ -56,6 +61,14 @@ class QuerySearchProvider
                 'taxonomy' => 'type-exe-2-tax',
                 'field'    => 'term_id',
                 'terms'    => $typeEx2TermId
+            ];
+        }
+
+        if($centerTermId) {
+            $query['tax_query'][] = [
+                'taxonomy' => 'center-tax',
+                'field'    => 'term_id',
+                'terms'    => $centerTermId
             ];
         }
 

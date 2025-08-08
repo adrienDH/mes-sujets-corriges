@@ -16,6 +16,7 @@
     $years = $allTaxonomyService->get('year-tax');
     $typesEx1 = $allTaxonomyService->get('type-exe-1-tax');
     $typesEx2 = $allTaxonomyService->get('type-exe-2-tax');
+    $centers = $allTaxonomyService->get('center-tax');
 ?>
 
 <?php get_header() ?>
@@ -88,6 +89,26 @@
                             <?php endif; ?>
                         >
                             <?= $type->name ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <select name="center-tax-name" class="form-select" aria-label="Centre d'examen">
+                    <option
+                        <?php if(empty($_POST['center-tax-name'])): ?>
+                            <?= 'selected' ?>
+                        <?php endif; ?>
+                         value=""
+                    >
+                        Choisir le centre d'examen
+                    </option>
+                    <?php foreach ($centers as $center): ?>
+                        <option
+                            value="<?= $center->term_id ?>"
+                            <?php if(!empty($_POST['center-tax-name']) && $_POST['center-tax-name'] == $center->term_id): ?>
+                                <?= 'selected' ?>
+                            <?php endif; ?>
+                        >
+                            <?= $center->name ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
