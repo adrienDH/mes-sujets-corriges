@@ -31,23 +31,31 @@
 </head>
 <body <?php body_class(); ?>>
   <?php if (!is_front_page()): ?>
-  <div class="container">
-      <div class="row">
-        <div class="col-12 my-5">
-            <div class="d-flex justify-content-between align-items-center">
-                <h1><a href="<?= home_url('/') ?>">Mes sujets corrigés</a></h1>
-                <div class="button-wrapper">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/images/geologie.png" alt="Fleur" class="geologie">
-                    <?php if(is_user_logged_in()): ?>
-                      <a href="<?php echo admin_url() ?>" class="btn btn-outline-success">Accèder à l'administration</a>
-                    <?php else: ?>
-                      <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_connection">Me connecter</button>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
+  <nav class="page-nav">
+      <a class="page-nav-brand" href="<?= esc_url(home_url('/')) ?>">
+          <span class="brand-mark">
+              <svg viewBox="0 0 40 40" width="20" height="20" fill="none">
+                  <path d="M20 6c7 0 12 4 12 11 0 5-4 8-8 8-1.5 0-3-.4-4-1.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+                  <path d="M20 6c-2.5 4-3 9-1 13.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".75"/>
+                  <path d="M8 30h24M11 35h18" stroke="#E6C79B" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+          </span>
+          <span class="brand-title">Mes sujets corrigés</span>
+      </a>
+      <span class="page-nav-spacer"></span>
+      <a href="<?= esc_url(home_url('/')) ?>" class="page-nav-back">
+          <?= svt_icon('arrowLeft', 2, 14) ?> Retour aux sujets
+      </a>
+      <?php if (is_user_logged_in()): ?>
+          <a href="<?= esc_url(admin_url()) ?>" class="page-nav-btn">
+              <?= svt_icon('user', 1.8, 14) ?> Administration
+          </a>
+      <?php else: ?>
+          <button class="page-nav-btn" data-bs-toggle="modal" data-bs-target="#modal_connection">
+              <?= svt_icon('user', 1.8, 14) ?> Se connecter
+          </button>
+      <?php endif; ?>
+  </nav>
   <?php endif; ?>
 
   <div class="modal fade" id="modal_connection" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="connection" aria-hidden="true">
