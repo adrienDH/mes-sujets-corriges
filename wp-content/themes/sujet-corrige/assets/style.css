@@ -239,20 +239,24 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 /* Session segment */
-.segment { display: flex; gap: 6px; }
+.segment { display: flex; flex-direction: column; gap: 4px; }
 .segment button {
-  flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink-2);
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  padding: 9px 6px;
+  padding: 8px 12px;
+  text-align: left;
   transition: all .14s;
+  cursor: pointer;
 }
-.segment button:hover { border-color: var(--green-500); }
-.segment button.on { background: var(--green-700); border-color: var(--green-700); color: #fff; }
+.segment button:hover { border-color: var(--green-500); color: var(--ink); }
+.segment button.on { background: var(--green-700); border-color: var(--green-700); color: #fff; font-weight: 600; }
 
 /* Toggle avec corrigé */
 .s-toggle {
