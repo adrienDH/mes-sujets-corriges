@@ -612,14 +612,16 @@ button { font-family: inherit; cursor: pointer; }
 
 .card-top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 15px 16px 0;
 }
 .card-marker {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 .card-cal {
   width: 28px; height: 28px;
@@ -688,10 +690,6 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 600;
   padding: 3px 9px 3px 7px;
   border-radius: var(--radius-pill);
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
   line-height: 1.4;
 }
 .tag svg { width: 12px; height: 12px; flex: none; }
