@@ -1,249 +1,427 @@
 <?php
-    if(!empty($_POST) && isset($_POST['is_registration'])) {
-        $userService = new UserProvider();
-        $isUserCreated = $userService->create($_POST);
+/* === Helpers SVG (avant header car utilisés partout) === */
+function svt_icon(string $name, float $sw = 1.8, int $size = 16): string {
+    $paths = [
+        'search'      => '<path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-4.35-4.35"/>',
+        'download'    => '<path d="M12 3v12"/><path d="m7 11 5 4 5-4"/><path d="M5 21h14"/>',
+        'check'       => '<path d="m5 12 4 4 9-10"/>',
+        'doc'         => '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
+        'user'        => '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+        'x'           => '<path d="M6 6l12 12M18 6 6 18"/>',
+        'reset'       => '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
+        'calendar'    => '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/>',
+        'pin'         => '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.6"/>',
+        'sunrise'     => '<path d="M12 2v6M5.6 9.6 7 11M2 17h3M19 17h3M17 11l1.4-1.4M22 21H2"/><path d="M16 17a4 4 0 0 0-8 0"/>',
+        'tag'         => '<path d="M11 2H4a2 2 0 0 0-2 2v7l9 9a2.4 2.4 0 0 0 3.4 0l5.6-5.6a2.4 2.4 0 0 0 0-3.4l-9-9Z"/><circle cx="7" cy="7" r="1.4"/>',
+        'checkCircle' => '<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
+        'book'        => '<path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v18H7.5A2.5 2.5 0 0 0 5 22.5Z"/><path d="M5 19.5A2.5 2.5 0 0 1 7.5 17H20"/>',
+        'layersHist'  => '<path d="M3 7.5 12 3l9 4.5-9 4.5z"/><path d="m3 12 9 4.5L21 12M3 16.5 12 21l9-4.5"/>',
+        'leaf'        => '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/>',
+        'dna'         => '<path d="M2 15c6.7-6 13.3 0 20-6"/><path d="M9 22c1.8-2 2.5-4 2.8-6"/><path d="M15 2c-1.8 2-2.5 4-2.8 6"/><path d="m17 6-2.5-2.5M14 8l-1-1M7 18l2.5 2.5M6.5 12.5l1 1M16.5 10.5l1 1M10 16l1.5 1.5"/>',
+        'neuron'      => '<circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5.6 5.6 8.4 8.4M15.6 15.6l2.8 2.8M18.4 5.6 15.6 8.4M8.4 15.6 5.6 18.4"/>',
+        'cloud'       => '<path d="M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9Z"/>',
+        'layers'      => '<path d="M12.8 2.2a2 2 0 0 0-1.6 0L2.6 6.1a1 1 0 0 0 0 1.8l8.6 3.9a2 2 0 0 0 1.6 0l8.6-3.9a1 1 0 0 0 0-1.8Z"/><path d="m22 17.6-9.2 4.2a2 2 0 0 1-1.6 0L2 17.6"/><path d="m22 12.6-9.2 4.2a2 2 0 0 1-1.6 0L2 12.6"/>',
+        'activity'    => '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+        'zap'         => '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+        'shield'      => '<path d="M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.5 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1Z"/>',
+    ];
+    $d = $paths[$name] ?? '<circle cx="12" cy="12" r="4"/>';
+    return '<svg viewBox="0 0 24 24" width="' . $size . '" height="' . $size . '" fill="none" stroke="currentColor" stroke-width="' . $sw . '" stroke-linecap="round" stroke-linejoin="round">' . $d . '</svg>';
+}
+
+function svt_theme_icon(string $name, int $size = 13): string {
+    $map = [
+        'Climat'                        => 'cloud',
+        'Plantes'                        => 'leaf',
+        'Génétique'                      => 'dna',
+        'Génétique (première)'           => 'dna',
+        'Système nerveux'                => 'neuron',
+        'Stress'                         => 'zap',
+        'Géologie'                       => 'layers',
+        'Muscle et flux de glucose'      => 'activity',
+        'Système immunitaire'            => 'shield',
+        'Système immunitaire (première)' => 'shield',
+    ];
+    return svt_icon($map[$name] ?? 'leaf', 1.9, $size);
+}
+
+$theme_colors = [
+    'Climat'                        => ['fg' => '#0E7C8B', 'bg' => '#E2F2F4'],
+    'Plantes'                        => ['fg' => '#2E7D32', 'bg' => '#E7F4E9'],
+    'Génétique'                      => ['fg' => '#6A45B0', 'bg' => '#EEE9F8'],
+    'Génétique (première)'           => ['fg' => '#8163C0', 'bg' => '#F1ECF9'],
+    'Système nerveux'                => ['fg' => '#3A4FAE', 'bg' => '#E8EAF8'],
+    'Stress'                         => ['fg' => '#C03B5B', 'bg' => '#FBE7EC'],
+    'Géologie'                       => ['fg' => '#9A5A26', 'bg' => '#F4E9DC'],
+    'Muscle et flux de glucose'      => ['fg' => '#B0731A', 'bg' => '#FBF0D7'],
+    'Système immunitaire'            => ['fg' => '#15877A', 'bg' => '#DEF2EE'],
+    'Système immunitaire (première)' => ['fg' => '#2F968A', 'bg' => '#E4F3F0'],
+];
+
+/* === Requêtes légères (IDs + taxonomies, sans ACF) === */
+$querySujetService  = new QuerySujetDefaultProvider();
+$sujetIds           = $querySujetService->getDefault();
+$allTaxonomyService = new QueryAllTaxonomyProvider();
+$years              = $allTaxonomyService->get('year-tax');
+$typesEx1           = $allTaxonomyService->get('type-exe-1-tax');
+$typesEx2           = $allTaxonomyService->get('type-exe-2-tax');
+$centers            = $allTaxonomyService->get('center-tax');
+$totalSujets        = count($sujetIds);
+$yearCount          = count($years);
+?>
+<?php get_header() ?>
+<?php
+/* === Calcul des données ACF (après get_header pour que ACF soit initialisé) === */
+$cards        = [];
+$withCorrCount = 0;
+$type2Counts  = [];
+
+foreach ($sujetIds as $postId) {
+    $yearT   = get_the_terms($postId, 'year-tax')       ?: [];
+    $t1T     = get_the_terms($postId, 'type-exe-1-tax') ?: [];
+    $t2T     = get_the_terms($postId, 'type-exe-2-tax') ?: [];
+    $centerT = get_the_terms($postId, 'center-tax')     ?: [];
+
+    /* Récupération des champs ACF via get_post_meta (contourne le bug acf_init) */
+    $promptId  = get_post_meta($postId, 'prompt', true);
+    $promptUrl = $promptId ? wp_get_attachment_url((int) $promptId) : null;
+
+    $corrCount   = (int) get_post_meta($postId, 'corrections', true);
+    $corrections = [];
+    for ($i = 0; $i < $corrCount; $i++) {
+        $corrAttachId = get_post_meta($postId, "corrections_{$i}_correction", true);
+        $corrName     = get_post_meta($postId, "corrections_{$i}_name", true) ?: '';
+        if ($corrAttachId) {
+            $corrUrl = wp_get_attachment_url((int) $corrAttachId);
+            if ($corrUrl) {
+                $corrections[] = ['url' => $corrUrl, 'name' => $corrName];
+            }
+        }
+    }
+    $hasCorr = !empty($corrections);
+
+    if ($hasCorr) $withCorrCount++;
+    foreach ($t2T as $term) {
+        $type2Counts[$term->term_id] = ($type2Counts[$term->term_id] ?? 0) + 1;
     }
 
-    if(!empty($_POST) && !isset($_POST['is_registration'])) {
-        $querySearchService = new QuerySearchProvider();
-        $sujets = $querySearchService->search($_POST);
-    } else {
-        $querySujetService = new QuerySujetDefaultProvider();
-        $sujets = $querySujetService->getDefault();
-    }
-    
-    $allTaxonomyService = new QueryAllTaxonomyProvider();
-    $years = $allTaxonomyService->get('year-tax');
-    $typesEx1 = $allTaxonomyService->get('type-exe-1-tax');
-    $typesEx2 = $allTaxonomyService->get('type-exe-2-tax');
-    $centers = $allTaxonomyService->get('center-tax');
+    $cards[] = [
+        'id'          => $postId,
+        'promptUrl'   => $promptUrl,
+        'corrections' => $corrections,
+        'yearT'       => $yearT,
+        't1T'         => $t1T,
+        't2T'         => $t2T,
+        'centerT'     => $centerT,
+        'hasCorr'     => $hasCorr,
+    ];
+}
 ?>
 
-<?php get_header() ?>
+<div class="shell">
 
-<div class="container">
-    <?php if(!is_user_logged_in()): ?>                    
-        <div class="row mb-5">
-            <div class="col-12">
-                <p>Vous souhaitez contribuer ? Pour vous inscrire cliqué : <a href="<?= home_url('/').'inscription' ?>">ici</a></p>
+    <!-- ====== SIDEBAR ====== -->
+    <aside class="sidebar">
+
+        <a class="sidebar-brand" href="<?= esc_url(home_url('/')) ?>">
+            <span class="brand-mark">
+                <svg viewBox="0 0 40 40" width="25" height="25" fill="none">
+                    <path d="M20 6c7 0 12 4 12 11 0 5-4 8-8 8-1.5 0-3-.4-4-1.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+                    <path d="M20 6c-2.5 4-3 9-1 13.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".75"/>
+                    <path d="M8 30h24M11 35h18" stroke="#E6C79B" stroke-width="2.2" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span class="brand-text">
+                <span class="brand-title">Mes sujets corrigés</span>
+                <span class="brand-sub">Bac SVT</span>
+            </span>
+        </a>
+
+        <div class="sidebar-scroll">
+
+            <div class="s-search">
+                <?= svt_icon('search', 1.8, 17) ?>
+                <input type="text" id="f-search" placeholder="Rechercher…" autocomplete="off">
+            </div>
+
+            <!-- Années -->
+            <div class="fgroup">
+                <div class="fgroup-head">
+                    <span class="fgroup-title"><?= svt_icon('calendar', 1.8, 14) ?> Année</span>
+                    <button class="fgroup-clear" id="clear-year" style="display:none">Effacer</button>
+                </div>
+                <div class="year-pills">
+                    <?php foreach ($years as $y): ?>
+                        <button class="ypill" data-year="<?= $y->term_id ?>"><?= esc_html($y->name) ?></button>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Centre d'examen -->
+            <div class="fgroup">
+                <div class="fgroup-head">
+                    <span class="fgroup-title"><?= svt_icon('pin', 1.8, 14) ?> Centre d'examen</span>
+                </div>
+                <div class="s-select">
+                    <select id="f-center">
+                        <option value="">Tous les centres</option>
+                        <?php foreach ($centers as $c): ?>
+                            <option value="<?= $c->term_id ?>"><?= esc_html($c->name) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Session / Type exercice 1 -->
+            <?php if (!empty($typesEx1)): ?>
+            <div class="fgroup">
+                <div class="fgroup-head">
+                    <span class="fgroup-title"><?= svt_icon('tag', 1.8, 14) ?> Type d'exercice 1</span>
+                    <button class="fgroup-clear" id="clear-type1" style="display:none">Effacer</button>
+                </div>
+                <div class="segment">
+                    <?php foreach ($typesEx1 as $t): ?>
+                        <button class="seg-btn" data-type1="<?= $t->term_id ?>"><?= esc_html($t->name) ?></button>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <!-- Avec corrigé -->
+            <div class="fgroup">
+                <button class="s-toggle" id="f-withcorr" type="button">
+                    <span class="switch"></span>
+                    <?= svt_icon('checkCircle', 1.8, 17) ?>
+                    Avec corrigé
+                    <span class="tg-meta"><?= $withCorrCount ?></span>
+                </button>
+            </div>
+
+            <!-- Thèmes (type-exe-2-tax) -->
+            <?php if (!empty($typesEx2)): ?>
+            <div class="fgroup">
+                <div class="fgroup-head">
+                    <span class="fgroup-title"><?= svt_icon('tag', 1.8, 14) ?> Thèmes</span>
+                    <button class="fgroup-clear" id="clear-themes" style="display:none">Effacer</button>
+                </div>
+                <div class="theme-list">
+                    <?php foreach ($typesEx2 as $t):
+                        $col   = $theme_colors[$t->name] ?? ['fg' => '#45524A', 'bg' => '#F2EFE6'];
+                        $count = $type2Counts[$t->term_id] ?? 0;
+                    ?>
+                        <button class="theme-item" data-type2="<?= $t->term_id ?>" data-theme-name="<?= esc_attr($t->name) ?>" type="button">
+                            <span class="t-ic" style="color:<?= $col['fg'] ?>;background:<?= $col['bg'] ?>"><?= svt_theme_icon($t->name, 14) ?></span>
+                            <span class="t-name"><?= esc_html($t->name) ?></span>
+                            <span class="t-count"><?= $count ?></span>
+                            <span class="t-check"><?= svt_icon('check', 2.6, 12) ?></span>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+        </div><!-- /sidebar-scroll -->
+
+        <div class="sidebar-foot">
+            <button class="reset-all" id="reset-all" type="button" disabled>
+                <?= svt_icon('reset', 1.8, 15) ?> Réinitialiser les filtres
+            </button>
+            <?php if (!is_user_logged_in()): ?>
+                <p class="sidebar-contribute">Contribuer ? <a href="<?= esc_url(home_url('/inscription')) ?>">S'inscrire ici</a></p>
+            <?php endif; ?>
+        </div>
+
+    </aside><!-- /sidebar -->
+
+    <!-- ====== MAIN ====== -->
+    <div class="main">
+
+        <!-- Topbar -->
+        <div class="topbar">
+            <div>
+                <h1><span class="h1-ic"><?= svt_icon('book', 1.8, 19) ?></span>Sujets du baccalauréat</h1>
+                <span class="topbar-sub"><b id="sujet-count"><?= $totalSujets ?></b> <?= $totalSujets > 1 ? 'sujets' : 'sujet' ?> au total</span>
+            </div>
+            <span class="topbar-spacer"></span>
+            <div class="sortsel">
+                <select id="f-sort" aria-label="Trier par">
+                    <option value="default">Plus récents</option>
+                    <option value="az">Centre A→Z</option>
+                    <option value="corr">Avec corrigé</option>
+                </select>
+            </div>
+            <?php if (is_user_logged_in()): ?>
+                <a href="<?= esc_url(admin_url()) ?>" class="btn btn-outline"><?= svt_icon('user', 1.8, 16) ?> Administration</a>
+            <?php else: ?>
+                <button type="button" class="btn btn-outline" data-bs-toggle="modal" data-bs-target="#modal_connection"><?= svt_icon('user', 1.8, 16) ?> Se connecter</button>
+            <?php endif; ?>
+        </div>
+
+        <!-- Bannière intro -->
+        <div class="intro">
+            <div class="intro-txt">
+                <h2>Tous les sujets, <em>classés et corrigés.</em></h2>
+                <p>Bibliothèque de sujets de spécialité SVT, filtrable par année, centre et thème du programme.</p>
+            </div>
+            <div class="intro-stats">
+                <div class="istat">
+                    <span class="istat-ic"><?= svt_icon('layersHist', 1.7, 18) ?></span>
+                    <div class="n"><?= $totalSujets ?></div><div class="l">sujets</div>
+                </div>
+                <div class="istat">
+                    <span class="istat-ic"><?= svt_icon('doc', 1.7, 18) ?></span>
+                    <div class="n"><?= $withCorrCount ?></div><div class="l">corrigés</div>
+                </div>
+                <div class="istat">
+                    <span class="istat-ic"><?= svt_icon('calendar', 1.7, 18) ?></span>
+                    <div class="n"><?= $yearCount ?></div><div class="l">années</div>
+                </div>
             </div>
         </div>
-    <?php endif; ?>
-    <div class="row">
-        <div class="col-12">
-            <form method="post" action="<?= home_url() ?>" class="input-group">
-                <select name="year-tax-name" class="form-select" aria-label="Années">
-                    <option
-                        <?php if(empty($_POST['year-tax-name'])): ?>
-                            <?= 'selected' ?>
-                        <?php endif; ?>
-                            value=""
-                    >
-                        Choisir une année
-                    </option>
-                    <?php foreach ($years as $year): ?>
-                        <option
-                                value="<?= $year->term_id ?>"
-                            <?php if(!empty($_POST['year-tax-name']) && $_POST['year-tax-name'] == $year->term_id): ?>
-                                <?= 'selected' ?>
-                            <?php endif; ?>
-                        >
-                            <?= $year->name ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <select name="type-exe-1-tax-name" class="form-select" aria-label="Types de l'exercice 1">
-                    <option
-                        <?php if(empty($_POST['type-exe-1-tax-name'])): ?>
-                            <?= 'selected' ?>
-                        <?php endif; ?>
-                            value=""
-                    >
-                        Choisir le type de l'exercice 1
-                    </option>
-                    <?php foreach ($typesEx1 as $type): ?>
-                        <option
-                                value="<?= $type->term_id ?>"
-                            <?php if(!empty($_POST['type-exe-1-tax-name']) && $_POST['type-exe-1-tax-name'] == $type->term_id): ?>
-                                <?= 'selected' ?>
-                            <?php endif; ?>
-                        >
-                            <?= $type->name ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <select name="type-exe-2-tax-name" class="form-select" aria-label="Types de l'exercice 2">
-                    <option
-                        <?php if(empty($_POST['type-exe-2-tax-name'])): ?>
-                            <?= 'selected' ?>
-                        <?php endif; ?>
-                         value=""
-                    >
-                        Choisir le type de l'exercice 2
-                    </option>
-                    <?php foreach ($typesEx2 as $type): ?>
-                        <option
-                            value="<?= $type->term_id ?>"
-                            <?php if(!empty($_POST['type-exe-2-tax-name']) && $_POST['type-exe-2-tax-name'] == $type->term_id): ?>
-                                <?= 'selected' ?>
-                            <?php endif; ?>
-                        >
-                            <?= $type->name ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <select name="center-tax-name" class="form-select" aria-label="Centre d'examen">
-                    <option
-                        <?php if(empty($_POST['center-tax-name'])): ?>
-                            <?= 'selected' ?>
-                        <?php endif; ?>
-                         value=""
-                    >
-                        Choisir le centre d'examen
-                    </option>
-                    <?php foreach ($centers as $center): ?>
-                        <option
-                            value="<?= $center->term_id ?>"
-                            <?php if(!empty($_POST['center-tax-name']) && $_POST['center-tax-name'] == $center->term_id): ?>
-                                <?= 'selected' ?>
-                            <?php endif; ?>
-                        >
-                            <?= $center->name ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <input
-                    type="text"
-                    name="search-name"
-                    placeholder="Titre du sujet"
-                    class="form-control"
-                    aria-label="Titre"
-                    value="<?= !empty($_POST['search-name']) ? $_POST['search-name'] : '' ?>"
+
+        <!-- Chips filtres actifs -->
+        <div class="active-row" id="active-chips" style="display:none"></div>
+
+        <!-- Grille de cartes -->
+        <main class="results">
+            <div class="card-grid" id="card-grid">
+
+                <?php foreach ($cards as $card):
+                    $postId      = $card['id'];
+                    $promptUrl   = $card['promptUrl'];
+                    $corrections = $card['corrections'];
+                    $yearT       = $card['yearT'];
+                    $t1T         = $card['t1T'];
+                    $t2T         = $card['t2T'];
+                    $centerT     = $card['centerT'];
+                    $hasCorr     = $card['hasCorr'];
+
+                    $yearId    = $yearT[0]->term_id  ?? '';
+                    $yearName  = $yearT[0]->name     ?? '';
+                    $centerId  = $centerT[0]->term_id ?? '';
+                    $centerName = $centerT[0]->name  ?? '';
+                    $t1Ids     = implode(',', array_column($t1T, 'term_id'));
+                    $t1Names   = implode(',', array_column($t1T, 'name'));
+                    $t2Ids     = implode(',', array_column($t2T, 'term_id'));
+                    $t2Names   = implode(',', array_column($t2T, 'name'));
+                    $postTitle = get_the_title($postId);
+                    $canAccess = current_user_can('administrator') || current_user_can('editor');
+                ?>
+                <div class="card"
+                    data-year="<?= esc_attr($yearId) ?>"
+                    data-center="<?= esc_attr($centerId) ?>"
+                    data-type1="<?= esc_attr($t1Ids) ?>"
+                    data-type2="<?= esc_attr($t2Ids) ?>"
+                    data-has-corr="<?= $hasCorr ? '1' : '0' ?>"
+                    data-year-name="<?= esc_attr($yearName) ?>"
+                    data-center-name="<?= esc_attr($centerName) ?>"
+                    data-t1-names="<?= esc_attr($t1Names) ?>"
+                    data-t2-names="<?= esc_attr($t2Names) ?>"
+                    data-title="<?= esc_attr($postTitle) ?>"
                 >
-                <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
-            </form>
-        </div>
-    </div>   
-    <div class="row mt-5">
-        <div class="col-12">
-            <label class="checkbox-container">
-                <input type="checkbox" name="with-correction" value="1">
-                <span class="checkbox-custom"></span>
-                <span class="checkbox-label">Sujets avec corrections</span>
-            </label> 
-        </div>
-    </div>
-    <div class="row mt-5">                              
-        <?php foreach ($sujets as $sujetId): ?>
-            <?php
-                $acfFields = get_fields($sujetId);
-                $year = get_the_terms($sujetId, 'year-tax');
-                $typeEx1 = get_the_terms($sujetId, 'type-exe-1-tax');
-                $typeEx2 = get_the_terms($sujetId, 'type-exe-2-tax');
-            ?>
-            <div 
-                class="col-sm-12 col-md-4 col-lg-3 mb-3 d-flex card-wrapper"
-                data-with-corrections="<?= !empty($acfFields['corrections']) ? "1" : "0" ?>"
-            >
-                <div class="card custom-card h-100">
-                    <?php if(!empty($year[0])): ?>
-                        <span class="year-badge"><?= $year[0]->name ?></span>
-                    <?php endif; ?>
-                    <div class="card-body d-flex flex-column h-100">
-                        <h5 class="card-title"><?= get_the_title($sujetId) ?></h5>
-                        <div class="badges">
-                            <?php if(!empty($typeEx1)): ?>
-                                <?php foreach($typeEx1 as $item): ?>
-                                    <span class="badge bg-success badge-custom">                                    
-                                        <?= $item->name ?>
-                                    </span>
-                                <?php endforeach; ?>
+                    <div class="card-top">
+                        <span class="card-marker">
+                            <span class="card-cal"><?= svt_icon('calendar', 1.7, 15) ?></span>
+                            <?php if ($yearName): ?>
+                                <span class="card-year"><?= esc_html($yearName) ?></span>
                             <?php endif; ?>
-                            <?php if(!empty($typeEx2)): ?>
-                                <?php foreach($typeEx2 as $item): ?>
-                                    <span class="badge bg-warning text-dark badge-custom">                                    
-                                        <?= $item->name ?>
-                                    </span>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </div>
-                        <div class="card-links mt-auto">
-                            <?php if(!empty($acfFields['prompt'])): ?>
-                                <a href="<?= $acfFields['prompt']['url'] ?>" target="_blank" class="btn btn-success">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"></path>
-                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"></path>
-                                    </svg>
-                                    Sujet
-                                </a>
-                            <?php endif; ?>
-                            <?php if(!empty($acfFields['corrections'])): ?>
-                                <?php foreach ($acfFields['corrections'] as $key => $correction): ?>
-                                    <?php if(!empty($correction['correction'])): ?>
-                                        <a 
-                                            <?php if(current_user_can('administrator') || current_user_can('editor')): ?>
-                                                href="<?= $correction['correction']['url'] ?>"
-                                                target="_blank"
-                                            <?php endif; ?>
-                                            class="btn  <?= current_user_can('administrator') || current_user_can('editor') ? 'btn-primary' : 'btn-outline-secondary' ?>"
-                                            <?php if(!current_user_can('administrator') && !current_user_can('editor')): ?>
-                                                data-bs-toggle="modal" data-bs-target="#modal_connection"
-                                            <?php endif; ?> class="btn btn-primary"
-                                        >
-                                            Corrigé 
-                                            <?php if(!empty($correction['name'])): ?>
-                                                <?= $correction['name'] ?>
-                                            <?php endif; ?>
-                                        </a>
-                                    <?php endif; ?>
-                                <?php endforeach ?>
-                            <?php endif; ?>
-                        </div>
+                            <?php foreach ($t1T as $t1): ?>
+                                <span class="card-session"><?= esc_html($t1->name) ?></span>
+                            <?php endforeach; ?>
+                        </span>
                     </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-    <div
-        class="row mt-5 contact-form-wrapper"
-        data-nonce="<?= wp_create_nonce('security-svt-sujet-corrige-nonce') ?>"
-        data-ajaxurl="<?= admin_url('admin-ajax.php') ?>"
-        data-action="svt_contact"
-    >
-        <div class="col-12">
-            <div class="container">
-                <div class="row justify-content-lg-center">
-                    <div class="col-12 col-lg-9">
-                        <div class=" shadow-sm overflow-hidden bg-green-svt">
-                            <div class="row gy-4 gy-xl-3 p-4 p-xl-5">
-                                <div class="col-12">
-                                    <h2>Contact</h2>
-                                    <p>Pour toute information, n'hésitez pas à nous contacter, nous vous répondrons dès que possible.</p>
-                                    <p class="success d-none fw-bold text-success">Merci pour votre message !</p>
-                                    <p class="error d-none fw-bold text-danger">Certains champs sont manquants.</p>
-                                </div>
-                                <div class="col-12 form-fields">
-                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <input type="email" class="form-control" id="email">
-                                    </div>
-                                </div>
-                                <div class="col-12 form-fields">
-                                    <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" id="message" rows="5"></textarea>
-                                </div>
-                                <div class="col-4 offset-4 form-fields">
-                                    <div class="d-grid">
-                                        <button class="btn btn-primary btn-success" id="submit_contact">Envoyer</button>
-                                    </div>
-                                </div>
+
+                    <div class="card-body">
+                        <div class="card-titleline">
+                            <span class="card-pin"><?= svt_icon('pin', 1.8, 16) ?></span>
+                            <span class="card-title"><?= esc_html($postTitle) ?></span>
+                        </div>
+                        <?php if (!empty($t2T)): ?>
+                            <div class="card-tags">
+                                <?php foreach ($t2T as $t2):
+                                    $col = $theme_colors[$t2->name] ?? ['fg' => '#45524A', 'bg' => '#F2EFE6'];
+                                ?>
+                                    <span class="tag" style="color:<?= $col['fg'] ?>;background:<?= $col['bg'] ?>">
+                                        <?= svt_theme_icon($t2->name, 13) ?>
+                                        <?= esc_html($t2->name) ?>
+                                    </span>
+                                <?php endforeach; ?>
                             </div>
-                        </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="card-actions">
+                        <?php if ($promptUrl): ?>
+                            <a href="<?= esc_url($promptUrl) ?>" target="_blank" class="act act-subject">
+                                <?= svt_icon('download', 1.8, 15) ?> Télécharger le sujet
+                            </a>
+                        <?php endif; ?>
+
+                        <?php if ($hasCorr): ?>
+                            <?php foreach ($corrections as $corr): ?>
+                                <?php if ($canAccess): ?>
+                                    <a href="<?= esc_url($corr['url']) ?>" target="_blank" class="act act-corr">
+                                        <?= svt_icon('doc', 1.7, 15) ?>
+                                        <?= $corr['name'] ? esc_html($corr['name']) : 'Corrigé' ?>
+                                    </a>
+                                <?php else: ?>
+                                    <button type="button" class="act act-corr act-locked" data-bs-toggle="modal" data-bs-target="#modal_connection">
+                                        <?= svt_icon('doc', 1.7, 15) ?>
+                                        <?= $corr['name'] ? esc_html($corr['name']) : 'Corrigé' ?>
+                                    </button>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <span class="no-corr">Corrigé à venir</span>
+                        <?php endif; ?>
                     </div>
                 </div>
+                <?php endforeach; ?>
+
+            </div><!-- /card-grid -->
+
+            <div class="empty" id="no-results">
+                <h3>Aucun sujet ne correspond</h3>
+                <p>Essayez d'élargir vos critères ou réinitialisez les filtres.</p>
+            </div>
+        </main>
+
+    </div><!-- /main -->
+
+</div><!-- /shell -->
+
+<!-- ====== CONTACT ====== -->
+<section class="contact-section">
+    <div class="contact-inner">
+        <h2>Contact</h2>
+        <p>Pour toute information, n'hésitez pas à nous contacter, nous vous répondrons dès que possible.</p>
+        <div
+            class="contact-form-wrapper"
+            data-nonce="<?= wp_create_nonce('security-svt-sujet-corrige-nonce') ?>"
+            data-ajaxurl="<?= esc_url(admin_url('admin-ajax.php')) ?>"
+            data-action="svt_contact"
+        >
+            <p class="success">Merci pour votre message !</p>
+            <p class="error">Certains champs sont manquants.</p>
+            <div class="form-fields">
+                <label for="email">Email <span style="color:#c0392b">*</span></label>
+                <input type="email" id="email" autocomplete="email">
+            </div>
+            <div class="form-fields">
+                <label for="message">Message <span style="color:#c0392b">*</span></label>
+                <textarea id="message" rows="5"></textarea>
+            </div>
+            <div class="form-fields">
+                <button id="submit_contact" type="button">Envoyer</button>
             </div>
         </div>
     </div>
+</section>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+    <?= svt_icon('download', 1.8, 17) ?>
+    <span id="toast-msg"></span>
 </div>
 
 <?php get_footer() ?>

@@ -15,7 +15,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Delius&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-00TRKNGGWW"></script>
@@ -30,6 +30,7 @@
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+  <?php if (!is_front_page()): ?>
   <div class="container">
       <div class="row">
         <div class="col-12 my-5">
@@ -47,6 +48,7 @@
         </div>
     </div>
   </div>
+  <?php endif; ?>
 
   <div class="modal fade" id="modal_connection" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="connection" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
